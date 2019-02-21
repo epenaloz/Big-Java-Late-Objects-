@@ -4,49 +4,69 @@ package chapter_7_exceptionhandling;
 /*
 Programmer:  Enrique Penaloza
 
-P7.2:   Write a program that reads a file containing text. Read each line and 
-send it to the output file, preceded by line numbers.
-        
-EX: If the input file is:
-        Mary had a litle lamb
-        Whose fleece was white as snow.
-        And everywhere...
-
-    then the program produces the output file
-         1  Mary had a litle lamb
-         2  Whose fleece was white as snow.
-         3  And everywhere...
-
+P7.1:   Write a program that carries out the fllowing tasks:
+            Open a file with the name hello.txt
+            Store the message "Hello World!" in the file
+            Close the file
+            Open the same file again
+            Read the message into a string variable and print it.
  */
-import java.util.Scanner;
-import java.io.PrintWriter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
-public class P7_2 {
-    public static void main(String[] args) throws FileNotFoundException
+/*This program opens a file named "hello.txt", which stores a message and
+closes the file. Then opens the file again and reads the message into
+a string variable and print it.
+*/
+
+public class P7_1 {
+    public static void main(String[] args)
     {
+        //Method to open the file and read the message
+        writeFile();
+        //Method to read the file into a string to print it.
+        String content = readFromFile("hello.txt");
+        //Print out the string method
+        System.out.println(content);
+
+    }
+    
+    public static String readFromFile(String fileName)
+    {
+        //Object is created
+        File theFile = new File(fileName);
+        //Variable to store string.
+        String content = null;
         
-        Scanner console = new Scanner(System.in);
-        System.out.print("Input File: ");
-        String inputFileName = console.next();
-        System.out.print("Output file: ");
-        String outputFileName = console.next();
-        
-        File inputFile = new File(inputFileName);
-        Scanner in = new Scanner(inputFile);
-        PrintWriter out = new PrintWriter(outputFileName);
-        
-        //Read athe input and write the output
-        int count=0;
-        while(in.hasNextLine())
+        //try and catch to determine if the file is there to store in vairable.
+        try(Scanner input = new Scanner(theFile))
         {
-            count++;
-            String text = in.nextLine();
-            out.write(String.format("/* %d */ %s\n", count, text));
+            //hello.txt text is in content variable
+            content = input.nextLine();
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("File Was Not Found");
         }
         
-        in.close();
-        out.close();
+        return content;
     }
+    
+    public static void writeFile()
+    {
+        File theFile = new File("hello.txt");
+        //try and catch to determine if hello.txt is there.
+        try(PrintWriter out = new PrintWriter(theFile))
+        {
+            out.write("Hello, World!");
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("File was not Found");
+        }
+    }
+
 }
