@@ -1,0 +1,58 @@
+package chapter6_arrays;
+
+/*
+Programmer:  Enrique Penaloza
+
+P6.3:   Modify the LargestInArray.java program to mark both the
+smallest and the largest elements
+ */
+
+import java.util.Scanner;
+
+/*This program reads a sequence of values and prints them, marking
+the smallest and largest elements */
+
+public class P6_3 {
+    public static void main(String[] args)
+    {
+        final int LENGTH = 100;
+        double[] values = new double[LENGTH];
+        int currentSize = 0;
+        
+        //Read inputs and store them in the array called values
+        System.out.println("Please enter values, Q to quit: ");
+        Scanner in = new Scanner(System.in);
+        while(in.hasNextDouble() && currentSize < values.length)
+        {
+            values[currentSize] = in.nextDouble();
+            currentSize++;
+        }
+    
+    //Find the largest value and name it "largest"
+    double largest = values[0];
+    for(int i=1; i< currentSize; i++)
+    {
+        if( values[i] > largest)
+            largest = values[i];
+    }
+    
+    //Find the largest value and name it "smallest"
+    double smallest = values[0];
+    for(int i=1; i< currentSize; i++)
+    {
+        if( values[i] < smallest)
+            smallest = values[i];
+    }
+    
+    //print all the values, marking the smallest and largest elements
+    for(int i = 0; i< currentSize; i++)
+    {
+        System.out.print(values[i]);
+        if(values[i] == largest)
+            System.out.print("   <== largest value");
+        if(values[i] == smallest)
+            System.out.print("   <== smallest value");
+        System.out.println();
+    }
+    }
+}
